@@ -1,7 +1,7 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 32
@@ -29,6 +29,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+    }
 }
 
 dependencies {
@@ -46,10 +56,24 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     //Lifecycle
-//    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     //Kotlin Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version"
-//    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$coroutines_scope"
-//    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$coroutines_android_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$coroutines_scope"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$coroutines_android_version"
+
+    //Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_dagger_version"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_compiler_version"
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_dagger_version"
+    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.3.0")
+
+
+    implementation "androidx.activity:activity-ktx:$activity_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+
+
 }
